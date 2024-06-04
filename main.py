@@ -14,9 +14,11 @@ pygame.init() #inicia a biblioteca "pygame"
 tamanho = (1080, 720) #tamanho da tela
 clock = pygame.time.Clock() #define o fps 
 tela = pygame.display.set_mode(tamanho) #cria o display da tela
+icone  = pygame.image.load("assets/iconePlaneta.png")
+pygame.display.set_icon(icone)
 pygame.display.set_caption('Space Marker') #cria o título da tela
 
-picture = pygame.image.load('recursos/imgEspaco.jpg')
+picture = pygame.image.load('assets/imgEspaco.jpg')
 bg = pygame.transform.scale(picture, (1080, 720))
 
 branco = (255, 255, 255)
