@@ -1,4 +1,4 @@
-import pygame
+import pygame, tkinter
 
 #Colocar uma imagem de fundo com algumas estrelinhas uiui
 #criar 3 opções: Salvar, Carregar e Excluir as marcações
@@ -14,24 +14,44 @@ pygame.init() #inicia a biblioteca "pygame"
 tamanho = (1080, 720) #tamanho da tela
 clock = pygame.time.Clock() #define o fps 
 tela = pygame.display.set_mode(tamanho) #cria o display da tela
-icone  = pygame.image.load("assets/iconePlaneta.png")
+imgicone  = pygame.image.load("assets/iconePlaneta.png")
+icone = pygame.transform.scale(imgicone, (32, 32))
 pygame.display.set_icon(icone)
 pygame.display.set_caption('Space Marker') #cria o título da tela
 
 picture = pygame.image.load('assets/imgEspaco.jpg')
 bg = pygame.transform.scale(picture, (1080, 720))
 
+posX = 0
+posY = 0
+
 branco = (255, 255, 255)
+
+def desenhar():
+    for num in range(len(estrelas)):
+        pygame.draw.circle(tela, branco, estrelas[num], 5, 0)
+
+posDict = -1
+estrelas = {
+
+}
+
 while True: #mantém a tela aberta até que a tela seja fechada
+    
     for evento in pygame.event.get():
         if evento.type == pygame.QUIT:
             quit()
-    
+        if evento.type == pygame.MOUSEBUTTONDOWN:
+            posX, posY = evento.pos
+            posDict += 1
+            estrelas[posDict] = posX, posY
+
     tela.fill(branco)
     tela.blit(bg, (0, 0))
+    desenhar()
 
+    
 
     pygame.display.update() #diz pra atualizar a tela
     clock.tick(60) #diz que a tela vai ter 60 fps
 
-pygame.quit()
