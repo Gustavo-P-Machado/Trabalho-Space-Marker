@@ -33,6 +33,7 @@ branco = (255,255,255)
 estrelas = {}
 tela.fill(branco)
 tela.blit(bg, (0, 0))
+marcacoes = {}
 
 posX = 0
 posY = 0
