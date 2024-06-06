@@ -38,6 +38,7 @@ marcacoes = {}
 posX = 0
 posY = 0
 
+
 # Loop principal do jogo
 jogando = True
 while jogando:
@@ -49,9 +50,16 @@ while jogando:
             posStart = (posX, posY)
             estrelas[posDict] = posX, posY
             posDict += 1
-        
+            posicao = pygame.mouse.get_pos()
+            nomeEstrela = simpledialog.askstring("Space Marker", "Nome Da Estrela:")
+            marcacoes[posicao] = nomeEstrela
 
-    #if len(estrelas) >= 2:
+    for posicao, nomeEstrela in marcacoes.items():
+        fonte = pygame.font.SysFont('comicsans', 25)
+        texto = fonte.render(nomeEstrela, True, branco)
+        tela.blit(texto, posicao)
+
+    
     linhas()
         
     desenhar()
