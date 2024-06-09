@@ -56,9 +56,11 @@ while jogando:
 
     for posicao, nomeEstrela in marcacoes.items():
         fonte = pygame.font.SysFont('comicsans', 25)
-        if nomeEstrela == '':
-            nomeEstrela = 'Desconhecido'
-        texto = fonte.render(nomeEstrela, True, branco)
+        ultimo = list(marcacoes.keys())[-1] 
+        if nomeEstrela.isalpha() == True:
+            texto = fonte.render(nomeEstrela, True, branco)
+        else:
+            texto = fonte.render('Desconhecido' + '-' + str(ultimo) , True, branco)        
         tela.blit(texto, posicao)
 
     
