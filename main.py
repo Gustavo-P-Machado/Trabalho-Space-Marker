@@ -35,7 +35,7 @@ posStart = 0, 0
 branco = (255,255,255)
 marcacoes = {}
 estrelas = {}
-
+vazio = str('')
 tela.fill(branco)
 tela.blit(bg, (0, 0))
 
@@ -55,33 +55,39 @@ while jogando:
 
             posX, posY = event.pos
             posStart = (posX, posY)
-            estrelas[posDict] = posX, posY
-            posDict += 1
 
             posicaoEstrela = pygame.mouse.get_pos()
+
             nomeEstrela = simpledialog.askstring("Space Marker", "Nome Da Estrela:")
-            marcacoes[posicaoEstrela] = nomeEstrela
+            
+            
+
+            if nomeEstrela != None:
+                
+                estrelas[posDict] = posX, posY
+                posDict += 1
+                marcacoes[posicaoEstrela] = nomeEstrela
+
 
         elif event.type == pygame.KEYDOWN and event.key == pygame.K_F10:
             
-            arquivoExt = arquivo =open("salvamento.trab", "w", encoding="utf8")
+            arquivoExt = arquivo = open("salvamento.trab", "w", encoding="utf-8")
             arquivo.write(str(estrelas) + '\n')
             arquivo.write(str(marcacoes))
-            arquivo.close
+            arquivo.close()
             messagebox.showinfo('Salvamento', 'Marcações salvas com sucesso')
 
         elif event.type == pygame.KEYDOWN and event.key == pygame.K_F11:
             
-            arquivo = open("salvamento.trab", "r", encoding="utf8")
+            arquivo = open("salvamento.trab", "r", encoding="utf-8")
             linhasExt = arquivo.readlines()
             estrelas = eval(linhasExt[0])
             marcacoes = eval(linhasExt[1])
 
-            
-
-
         elif event.type == pygame.KEYDOWN and event.key == pygame.K_F12:
-            pass
+            arquivoExt = arquivo = open("salvamento.trab", "w", encoding="utf-8")
+            arquivo.write(str(vazio) + '\n')
+            arquivo.close
 
 
     for posicao, nomeEstrela in marcacoes.items():
@@ -97,6 +103,7 @@ while jogando:
     textoOpcoesF10 = fonteOpcoes.render('F10 para salvar as marcações', True, branco)
     textoOpcoesF11 = fonteOpcoes.render('F11 para carregar as marcações', True, branco)
     textoOpcoesF12 = fonteOpcoes.render('F12 para excluir as marcações', True, branco)
+
     tela.blit(textoOpcoesF10, (0, 0))
     tela.blit(textoOpcoesF11, (0, 25))
     tela.blit(textoOpcoesF12, (0, 50))
