@@ -2,16 +2,17 @@ import pygame
 from tkinter import simpledialog, messagebox
 
 
+
 # Inicaliza o Pygame
 pygame.init() 
 
 # Configura a janela do Pygame
-tamanho = (1080, 720)
-tela = pygame.display.set_mode(tamanho) 
+tamanho = 1080, 720
+tela = pygame.display.set_mode(tamanho, pygame.RESIZABLE) 
 imgicone  = pygame.image.load("assets/icone.png")
 icone = pygame.transform.scale(imgicone, (32, 32))
-picture = pygame.image.load('assets/imgEspaco.jpg')
-bg = pygame.transform.scale(picture, (1080, 720))
+picture = pygame.image.load('assets/imagemFundo.png')
+bg = pygame.transform.scale(picture, tamanho)
 
 # Configura o icone e título do Pygame
 pygame.display.set_icon(icone)
@@ -47,8 +48,31 @@ posY = 0
 jogando = True
 while jogando:
 
+
     for event in pygame.event.get():
+
+        if event.type == pygame.WINDOWRESIZED:
+            tamanho = tela.get_width(), tela.get_height()
+            bg = pygame.transform.scale(picture, tamanho)
+            tela.fill(branco)
+            tela.blit(bg, (0, 0))
+
         if event.type == pygame.QUIT:
+            arquivoExt = arquivo = open("salvamento.trab", "w", encoding="utf-8")
+            arquivo.write(str(estrelas) + '\n')
+            arquivo.write(str(marcacoes) + '\n')
+            arquivo.write(str(posDict))
+            arquivo.close()
+
+            jogando = False
+
+        if event.type == pygame.KEYDOWN and event.key == pygame.K_ESCAPE:
+            arquivoExt = arquivo = open("salvamento.trab", "w", encoding="utf-8")
+            arquivo.write(str(estrelas) + '\n')
+            arquivo.write(str(marcacoes) + '\n')
+            arquivo.write(str(posDict))
+            arquivo.close()
+
             jogando = False
 
         elif event.type == pygame.MOUSEBUTTONDOWN:
@@ -73,26 +97,38 @@ while jogando:
             
             arquivoExt = arquivo = open("salvamento.trab", "w", encoding="utf-8")
             arquivo.write(str(estrelas) + '\n')
-            arquivo.write(str(marcacoes))
+            arquivo.write(str(marcacoes) + '\n')
+            arquivo.write(str(posDict))
             arquivo.close()
             messagebox.showinfo('Salvamento', 'Marcações salvas com sucesso')
 
         elif event.type == pygame.KEYDOWN and event.key == pygame.K_F11:
-            
-            arquivo = open("salvamento.trab", "r", encoding="utf-8")
-            linhasExt = arquivo.readlines()
-            estrelas = eval(linhasExt[0])
-            marcacoes = eval(linhasExt[1])
+            try:
+                arquivo = open("salvamento.trab", "r", encoding="utf-8")
+                linhasExt = arquivo.readlines()
+                estrelas = eval(linhasExt[0])
+                marcacoes = eval(linhasExt[1])
+                posDict = eval(linhasExt[2])
+            except:
+                messagebox.showerror('ERRO DE CARREGAMENTO', 'ARQUIVO DE SALVAMENTO NÃO ENCONTRADO')
 
         elif event.type == pygame.KEYDOWN and event.key == pygame.K_F12:
             arquivoExt = arquivo = open("salvamento.trab", "w", encoding="utf-8")
             arquivo.write(str(vazio) + '\n')
             arquivo.close
+            marcacoes = {}
+            estrelas = {}
+            posX = 0
+            posY = 0
+            posDict = 0
+            posStart = 0, 0
+            tela.fill(branco)
+            tela.blit(bg, (0, 0))
 
 
     for posicao, nomeEstrela in marcacoes.items():
 
-        if nomeEstrela != '':
+        if not nomeEstrela.strip() == '':
             texto = fonte.render(nomeEstrela, True, branco)
             tela.blit(texto, posicao )
         else:
